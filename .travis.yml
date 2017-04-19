@@ -1,6 +1,11 @@
 language: java
 jdk:
   - oraclejdk8
+
+env:
+  global:
+   - secure: "m2NJz5H7DYfVKZFhE40alck+Q5m3d85S1lqToQl/6GXMAHGW4s8oYGQ2nUkAJ7zhjNSpnKiKuEzktDhltLhnCB7A08ErC7oUMd//TX4xiIEQa5wo8nhbkfo3Q0q9+JG9UctZCEnQSvGmRMqyy2Wbnt6ZrEehJiVR8jbneZw4GalIJZv4EAHujvC1LCn0Tz0KAluTCckgfmVPMzhJk/i15LAV/4m/yzRefHPwYO9vPJnCIV7akEhITi32hBvDUx2cHYInxEr+ZcITJj7N6PeiRs/X9eVIdBfEyA3jNASx0PirqAEz4k33MyQHBA+gdHlmY12YelDvJ9FnvuMsVWR/RSjTh/G6fN75xK0cpExwGaVq0VhUcXjs5Mjbx032pGOwCjQkYWN94O1C6X6zU3phEFmMFbclhzCH2l0+7Ixd2okvvuN7AXBN3DOBpM7X0jRw4ecQSpZzMQ5gY7V/gg99s713iAzazWaaOOKe2rY0+rqG8eLF+ryKEW933gaMIzKVoWG7cup58+mEuTMXLbeD0Dp0UQ6zfjomUtGVQ6Y361dQH/iPTknT1ObM7jPf8sn/5FVnfAqYGc/Ps01iDziJXLHtCpYrvmiZApPlsjAg7LcOAX73FW7R0i7uzk5GvH8bKABb75KiLYLSxwp8b97PD6OhcN+jRudeXX8MLFisTjQ="
+
 before_script:
   - chmod +x gradlew
 script:
@@ -11,9 +16,10 @@ after_success:
 addons:
   coverity_scan:
     project:
-      name: "baldan42/neo4j-drivers"
-      description: "Wrappers and decorators for the Neo4j Java Driver"
+      name: baldan42/neo4j-drivers
+      description: Wrappers and decorators for the Neo4j Java Driver
     notification_email: gustorn@gmail.com
     build_command_prepend: "./gradlew clean"
-    build_command:   "./gradlew build"
+    build_command: "./gradlew build"
     branch_pattern: coverity_scan
+
