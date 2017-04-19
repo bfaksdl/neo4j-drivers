@@ -12,6 +12,7 @@ ext {
 
 subprojects {
   apply plugin: 'java'
+  apply plugin: 'findbugs'
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
 
@@ -45,5 +46,12 @@ subprojects {
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
     compile group: 'org.neo4j.driver', name: 'neo4j-java-driver', version: neo4jDriverVersion
     testCompile group: 'junit', name: 'junit', version: junitVersion
+  }
+
+  tasks.withType(FindBugs) {
+      reports {
+          xml.enabled false
+          html.enabled true
+      }
   }
 }
