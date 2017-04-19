@@ -8,3 +8,12 @@ script:
   - ./gradlew codeCoverageReport
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+addons:
+  coverity_scan:
+    project:
+      name: "baldan42/neo4j-drivers"
+      description: "Wrappers and decorators for the Neo4j Java Driver"
+    notification_email: gustorn@gmail.com
+    build_command_prepend: "./gradlew clean"
+    build_command:   "./gradlew build"
+    branch_pattern: coverity_scan
