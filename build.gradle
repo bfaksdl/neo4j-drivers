@@ -1,6 +1,13 @@
 allprojects {
+  apply plugin: 'jacoco'
   group = 'neo4j-drivers'
   version = '0.0.4-SNAPSHOT'
+
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+  }
 }
 
 ext {
@@ -20,11 +27,6 @@ subprojects {
 
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
-
-  repositories {
-    mavenLocal()
-    jcenter()
-  }
 
   configurations.all { exclude group: 'asm' }
 
@@ -54,4 +56,23 @@ subprojects {
           html.enabled true
       }
   }
+}
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }
