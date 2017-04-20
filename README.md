@@ -1,6 +1,6 @@
 # neo4j-drivers
 
-[![Build Status](https://travis-ci.org/baldan42/neo4j-drivers.svg?branch=master)](https://travis-ci.org/baldan42/neo4j-drivers)
+[![Build Status](https://travis-ci.org/bfaksdl/neo4j-drivers.svg?branch=master)](https://travis-ci.org/bfaksdl/neo4j-drivers)
 [![codecov](https://codecov.io/gh/baldan42/neo4j-drivers/branch/master/graph/badge.svg)](https://codecov.io/gh/baldan42/neo4j-drivers)
 
 The `ReactiveDriver` class takes a Neo4j Driver and enhances it with _reactive_ (or _incremental_) change notifications by applying the [Decorator pattern](https://en.wikipedia.org/wiki/Decorator_pattern).
