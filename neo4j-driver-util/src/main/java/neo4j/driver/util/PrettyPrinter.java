@@ -1,11 +1,6 @@
 package neo4j.driver.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
+import com.google.common.base.Joiner;
 import org.neo4j.driver.internal.value.NodeValue;
 import org.neo4j.driver.internal.value.PathValue;
 import org.neo4j.driver.internal.value.RelationshipValue;
@@ -16,9 +11,17 @@ import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Path;
 import org.neo4j.driver.v1.types.Relationship;
 
-import com.google.common.base.Joiner;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class PrettyPrinter {
+
+	private PrettyPrinter() {
+		// private ctr to avoid instantiation
+	}
 
 	public static String toString(List<Entity> entities) {
 		final List<String> result = new ArrayList<>(entities.size());

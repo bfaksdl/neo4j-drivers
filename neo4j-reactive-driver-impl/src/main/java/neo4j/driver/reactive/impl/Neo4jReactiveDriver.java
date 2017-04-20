@@ -17,9 +17,9 @@ public class Neo4jReactiveDriver implements ReactiveDriver {
     	this.driver = driver;
     }
 
+    @Override
     public ReactiveSession session() {
     	return new Neo4jReactiveSession(driver.session());
     }
-
 
 }
