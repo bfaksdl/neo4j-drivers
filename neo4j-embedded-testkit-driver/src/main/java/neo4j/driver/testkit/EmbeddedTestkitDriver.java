@@ -1,13 +1,13 @@
 package neo4j.driver.testkit;
 
-import java.io.File;
-
 import org.neo4j.driver.v1.AccessMode;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.test.TestGraphDatabaseFactory;
+
+import java.io.File;
 
 /**
  * Driver for testing an embedded Neo4j database through the neo4j-java-driver's
@@ -37,11 +37,12 @@ public class EmbeddedTestkitDriver implements Driver {
 
 	@Override
 	public EmbeddedTestkitSession session(AccessMode mode) {
-		return new EmbeddedTestkitSession(gds, mode);
+		return new EmbeddedTestkitSession(gds);
 	}
 
 	@Override
 	public void close() {
+		// does nothing
 	}
 
 	@Override

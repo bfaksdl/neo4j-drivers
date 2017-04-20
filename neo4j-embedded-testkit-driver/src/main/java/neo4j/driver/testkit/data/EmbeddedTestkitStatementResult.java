@@ -1,15 +1,16 @@
 package neo4j.driver.testkit.data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.NoSuchRecordException;
 import org.neo4j.driver.v1.summary.ResultSummary;
 import org.neo4j.driver.v1.util.Function;
 import org.neo4j.graphdb.Result;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class EmbeddedTestkitStatementResult implements StatementResult {
 
@@ -36,7 +37,7 @@ public class EmbeddedTestkitStatementResult implements StatementResult {
 	}
 
 	@Override
-	public Record single() throws NoSuchRecordException {
+	public Record single() {
 		if (result.hasNext()) {
 			return next();
 		} else {
@@ -60,7 +61,7 @@ public class EmbeddedTestkitStatementResult implements StatementResult {
 
 	@Override
 	public <T> List<T> list(Function<Record, T> mapFunction) {
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 package neo4j.driver.reactive.data;
 
-import java.util.stream.Collectors;
-
 import com.google.common.collect.Multiset;
+
+import java.util.stream.Collectors;
 
 public class ChangeSet<T> {
 
@@ -30,7 +30,7 @@ public class ChangeSet<T> {
 
 	private String formatRecords(Multiset<T> records) {
 		return records.stream() //
-				.map(r -> r.toString()) //
+				.map(T::toString) //
 				.collect(Collectors.joining(", ")); //
 	}
 
