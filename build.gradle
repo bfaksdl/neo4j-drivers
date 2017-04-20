@@ -22,6 +22,7 @@ subprojects {
   apply plugin: 'findbugs'
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
+  apply plugin: 'checkstyle'
 
   jar { from sourceSets.main.allJava }
 
@@ -55,6 +56,19 @@ subprojects {
           xml.enabled false
           html.enabled true
       }
+  }
+
+  tasks.withType(Checkstyle) {
+    reports {
+      xml.enabled false
+      html.enabled true
+    }
+  }
+
+  checkstyle {
+    toolVersion = "7.6"
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    ignoreFailures = true
   }
 }
 
