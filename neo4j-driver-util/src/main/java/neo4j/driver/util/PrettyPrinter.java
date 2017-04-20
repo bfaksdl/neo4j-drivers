@@ -17,13 +17,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class PrettyPrinter {
+public final class PrettyPrinter {
 
 	private PrettyPrinter() {
 		// private ctr to avoid instantiation
 	}
 
-	public static String toString(List<Entity> entities) {
+	public static String toString(final List<Entity> entities) {
 		final List<String> result = new ArrayList<>(entities.size());
 
 		for (final Entity entity : entities) {
@@ -38,7 +38,7 @@ public class PrettyPrinter {
 		return String.format("[%s]", joiner.join(result));
 	}
 
-	public static String toString(Record record) {
+	public static String toString(final Record record) {
 		Joiner entityJoiner = Joiner.on(", ");
 
 		List<String> formattedEntityList = record.fields() //
@@ -49,7 +49,7 @@ public class PrettyPrinter {
 		return String.format("<%s>", entityJoiner.join(formattedEntityList));
 	}
 
-	public static String toString(Node node) {
+	public static String toString(final Node node) {
 		Joiner labelJoiner = Joiner.on("");
 		List<String> formattedLabelList = StreamSupport //
 				.stream(node.labels().spliterator(), false) //
@@ -59,14 +59,14 @@ public class PrettyPrinter {
 
 		String propertiesString = toString(node.asMap());
 
-		return String.format( //
+		return String.format(//
 				"(%s%s%s)", //
 				labelsString, //
 				labelsString.isEmpty() || propertiesString.isEmpty() ? "" : " ", //
 				propertiesString);
 	}
 
-	public static String toString(Relationship relationship) {
+	public static String toString(final Relationship relationship) {
 		String propertiesString = toString(relationship.asMap());
 
 		return String.format("(%s)-[:%s%s%s]-(%s)", //
@@ -78,11 +78,11 @@ public class PrettyPrinter {
 				);
 	}
 
-	public static String toString(Path path) {
+	public static String toString(final Path path) {
 		throw new UnsupportedOperationException("Serialization of paths is not yet implemented.");
 	}
 
-	private static String toString(Map<String, Object> propertiesMap) {
+	private static String toString(final Map<String, Object> propertiesMap) {
 		if (propertiesMap.isEmpty()) {
 			return "";
 		} else {
@@ -97,7 +97,7 @@ public class PrettyPrinter {
 		}
 	}
 
-	public static String toString(Value value) {
+	public static String toString(final Value value) {
 		if (value instanceof NodeValue) {
 			return toString(value.asNode());
 		} else if (value instanceof RelationshipValue) {
@@ -109,7 +109,7 @@ public class PrettyPrinter {
 		return value.toString();
 	}
 
-	private static String format(Object value) {
+	private static String format(final Object value) {
 		if (value instanceof String) {
 			return "\"" + value + "\"";
 		} else {
