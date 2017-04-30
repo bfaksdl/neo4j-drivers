@@ -212,7 +212,7 @@ public class Neo4jDriverTest {
 		}
 	}
 
-	private class Person {
+	private static class Person {
 		final String key;
 		final String name;
 		final String title;
