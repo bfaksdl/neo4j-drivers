@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class PrettyPrinterTest {
 
@@ -88,6 +88,22 @@ public class PrettyPrinterTest {
 	}
 
 	@Test
+	public void testNodeToStringWithNoLabels() {
+		//Arrange
+		Map<String, Value> nodeProperties = ImmutableMap.of("companyName", Values.value("Google"),
+			"city", Values.value("Mountain View") );
+		Node anotherNode = new InternalNode(2, Collections.emptyList(), nodeProperties);
+
+		//Act
+		String nodeDisplay = PrettyPrinter.toString(anotherNode);
+		System.out.println(nodeDisplay);
+
+		//Assert
+		String expectedDisplay = "({companyName: \"Google\", city: \"Mountain View\"})";
+		assertEquals(expectedDisplay, nodeDisplay);
+	}
+
+	@Test
 	public void testNodeToStringWithNoProperties() {
 		//Arrange
 		List<String> labels = ImmutableList.of("Birth");
@@ -100,6 +116,8 @@ public class PrettyPrinterTest {
 		String expectedDisplay = "(:Birth)";
 		assertEquals(expectedDisplay, nodeDisplay);
 	}
+
+
 
 	@Test
 	public void testRelationshipToStringWithNoProperties() {
@@ -128,7 +146,10 @@ public class PrettyPrinterTest {
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void testPathValueToString() {
-		PrettyPrinter.toString(mock(PathValue.class));
+		PathValue pathValue = mock(PathValue.class);
+		when(pathValue.asPath()).thenReturn(mock(Path.class));
+
+		PrettyPrinter.toString(pathValue);
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
