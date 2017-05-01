@@ -17,6 +17,7 @@ import org.neo4j.driver.v1.types.Entity;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Path;
 import org.neo4j.driver.v1.types.Relationship;
+import org.neo4j.driver.v1.util.Function;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +44,8 @@ public class PrettyPrinterTest {
 	@Test
 	public void testEntityListToString() throws Exception {
 		//Arrange
-		List<Entity> entities = ImmutableList.of(node, relationship);
+		Entity customEntity = createCustomEntity();
+		List<Entity> entities = ImmutableList.of(node, relationship, customEntity);
 
 		//Act
 		String entitiesDisplay = PrettyPrinter.toString(entities);
@@ -155,6 +157,55 @@ public class PrettyPrinterTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void testPathToString() {
 		PrettyPrinter.toString(mock(Path.class));
+	}
+
+	private Entity createCustomEntity() {
+		return new Entity() {
+			@Override
+			public long id() {
+				return 13;
+			}
+
+			@Override
+			public Iterable<String> keys() {
+				return null;
+			}
+
+			@Override
+			public boolean containsKey(String key) {
+				return false;
+			}
+
+			@Override
+			public Value get(String key) {
+				return null;
+			}
+
+			@Override
+			public int size() {
+				return 0;
+			}
+
+			@Override
+			public Iterable<Value> values() {
+				return null;
+			}
+
+			@Override
+			public <T> Iterable<T> values(Function<Value, T> mapFunction) {
+				return null;
+			}
+
+			@Override
+			public Map<String, Object> asMap() {
+				return null;
+			}
+
+			@Override
+			public <T> Map<String, T> asMap(Function<Value, T> mapFunction) {
+				return null;
+			}
+		};
 	}
 
 }
