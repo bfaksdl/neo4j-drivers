@@ -192,7 +192,7 @@ public class Neo4jDriverTest {
 	}
 
 	private void assertPersons(Multiset<Record> changes, final Person... persons) {
-		changes.forEach(record -> hasMatching(record, persons));
+		changes.forEach(record -> assertTrue(hasMatching(record, persons)));
 	}
 
 	private boolean hasMatching(Record record, Person... persons) {
