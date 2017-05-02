@@ -1,6 +1,56 @@
 package neo4j.driver.testkit;
 
+
+import neo4j.driver.util.PrettyPrinter;
+import org.neo4j.driver.v1.*;
+import neo4j.driver.testkit.*;
+import org.junit.*;
+import org.neo4j.graphdb.GraphDatabaseService;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
 public class EmbeddedTestkitDriverTest {
+	private EmbeddedTestkitDriver etd;
+
+	//private GraphDatabaseService mgds;
+
+	@Before
+	public void init(){
+		//mgds = mock(GraphDatabaseService.class);
+		//etd = new EmbeddedTestkitDriverTest(mgds);
+
+		etd = new EmbeddedTestkitDriver();
+	}
+
+	@Test
+	public void isEncripted_valueCheck(){
+		//act
+		boolean value = etd.isEncrypted();
+		//Assert
+		assertEquals(false, value);
+	}
+
+//	@Test
+//	public void session_correctReturn(){
+//		//act
+//		Session s = etd.session();
+//		//s.
+//	}
+
+	@Test (expected = UnsupportedOperationException.class)
+	public void session_invalid_parameter(){
+		//act
+		Session s = etd.session("string");
+	}
+
+	@Test (expected = UnsupportedOperationException.class)
+	public void session_invalid_parameter_2(){
+		//act
+		Session s = etd.session(AccessMode.READ, "string");
+	}
+
+
 
 //	@Test
 //	public void test() {
