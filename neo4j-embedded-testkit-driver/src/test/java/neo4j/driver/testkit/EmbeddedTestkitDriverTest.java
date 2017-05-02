@@ -42,12 +42,16 @@ public class EmbeddedTestkitDriverTest {
 	public void session_invalid_parameter(){
 		//act
 		Session s = etd.session("string");
+
+		s.close(); //so findBugs won't complain
 	}
 
 	@Test (expected = UnsupportedOperationException.class)
 	public void session_invalid_parameter_2(){
 		//act
 		Session s = etd.session(AccessMode.READ, "string");
+
+		s.close(); //so findBugs won't complain
 	}
 
 
