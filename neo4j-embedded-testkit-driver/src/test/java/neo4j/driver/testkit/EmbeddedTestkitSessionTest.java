@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.neo4j.driver.internal.value.IntegerValue;
 import org.neo4j.driver.internal.value.MapValue;
 import org.neo4j.driver.internal.value.StringValue;
-import org.neo4j.driver.v1.Statement;
-import org.neo4j.driver.v1.StatementResult;
-import org.neo4j.driver.v1.Value;
+import org.neo4j.driver.v1.*;
+import org.neo4j.driver.v1.Transaction;
+import org.neo4j.driver.v1.types.TypeSystem;
 import org.neo4j.graphdb.*;
 
 import java.io.PrintWriter;
@@ -105,11 +105,67 @@ public class EmbeddedTestkitSessionTest {
 		assertEquals(true, compareStatementResults(exp_res, result));
 	}
 
+	@Test
+	public void beginTransaction_noparam(){
+		//Arrange
+		Transaction exp_res = new EmbeddedTestkitTransaction(mEts, dummyTransaction);
+		when(mockGds.beginTx()).thenReturn(dummyTransaction);
+
+		//Act
+		Transaction result = mEts.beginTransaction();
+
+		//Assert
+		verify(mockGds, times(1)).beginTx();
+		assertEquals(exp_res.typeSystem(), result.typeSystem());
+		assertEquals((((EmbeddedTestkitTransaction)exp_res).session), ((EmbeddedTestkitTransaction)result).session);
+		assertEquals((((EmbeddedTestkitTransaction)exp_res).internalTransaction)
+			, ((EmbeddedTestkitTransaction)result).internalTransaction);
+	}
+
 	@Test(expected = UnsupportedOperationException.class)
 	public void typeSystem_notsupported(){
 		mEts.typeSystem();
 	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void begintransaction_param_notsupported(){
+		mEts.beginTransaction("param");
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void lastBookmark_notsupported(){
+		mEts.lastBookmark();
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void reset_notsupported(){
+		mEts.reset();
+	}
+
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void readTransaction_notsupported(){
+		TransactionWork<String> trw = new TransactionWork<String>() {
+			@Override
+			public String execute(Transaction tx) {
+				return "test transaction";
+			}
+		};
+
+		mEts.readTransaction(trw);
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void writeTransaction_notsupported(){
+		TransactionWork<String> trw = new TransactionWork<String>() {
+			@Override
+			public String execute(Transaction tx) {
+				return "test transaction";
+			}
+		};
+
+		mEts.writeTransaction(trw);
+	}
 
 
 	boolean compareStatementResults(StatementResult res1, StatementResult res2){
@@ -129,6 +185,38 @@ public class EmbeddedTestkitSessionTest {
 		}
 		return false;
 	}
+
+	org.neo4j.graphdb.Transaction dummyTransaction = new org.neo4j.graphdb.Transaction() {
+		@Override
+		public void terminate() {
+
+		}
+
+		@Override
+		public void failure() {
+
+		}
+
+		@Override
+		public void success() {
+
+		}
+
+		@Override
+		public void close() {
+
+		}
+
+		@Override
+		public Lock acquireWriteLock(PropertyContainer entity) {
+			return null;
+		}
+
+		@Override
+		public Lock acquireReadLock(PropertyContainer entity) {
+			return null;
+		}
+	};
 
 	Result dummyResult = new Result() {
 		@Override
