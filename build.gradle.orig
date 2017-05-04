@@ -1,0 +1,99 @@
+plugins {
+    id "org.sonarqube" version "2.3"
+}
+
+allprojects {
+    apply plugin: 'jacoco'
+    group = 'neo4j-drivers'
+    version = '0.0.4-SNAPSHOT'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+}
+
+ext {
+    guavaVersion = '21.0'
+    junitVersion = '4.12'
+    neo4jDriverVersion = '1.3.0-alpha01'
+    neo4jVersion = '3.1.1'
+    mockitoVersion = '2.7.22'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'findbugs'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply plugin: 'checkstyle'
+
+    jar { from sourceSets.main.allJava }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    configurations.all { exclude group: 'asm' }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) { from components.java }
+        }
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: 'file:///tmp/mvn_repo')
+            }
+        }
+    }
+
+    dependencies {
+        compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+        compile group: 'org.neo4j.driver', name: 'neo4j-java-driver', version: neo4jDriverVersion
+        testCompile group: 'junit', name: 'junit', version: junitVersion
+        testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+
+    }
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled false
+            html.enabled true
+        }
+    }
+
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.enabled false
+            html.enabled true
+        }
+    }
+
+    checkstyle {
+        toolVersion = "7.6"
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        ignoreFailures = true
+    }
+}
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
+}
