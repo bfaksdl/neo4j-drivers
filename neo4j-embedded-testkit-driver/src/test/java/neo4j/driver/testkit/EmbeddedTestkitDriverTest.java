@@ -22,19 +22,19 @@ public class EmbeddedTestkitDriverTest {
 
 		etd = new EmbeddedTestkitDriver();
 	}
-	
-  @Test
-  public void session_correctReturn(){
-      //Arrange
-      EmbeddedTestkitSession exp_session = new EmbeddedTestkitSession(mgds);
 
-      //Act
-      Session ret_session = mockedEtd.session();
+	@Test
+	public void session_correctReturn(){
+		//Arrange
+		EmbeddedTestkitSession exp_session = new EmbeddedTestkitSession(mgds);
 
-      //Assert
-      assertEquals(exp_session.gds, ((EmbeddedTestkitSession)ret_session).gds);
-      assertEquals(EmbeddedTestkitSession.class, ret_session.getClass());
-  }
+		//Act
+		Session ret_session = mockedEtd.session();
+
+		//Assert
+		assertEquals(exp_session.gds, ((EmbeddedTestkitSession)ret_session).gds);
+		assertEquals(EmbeddedTestkitSession.class, ret_session.getClass());
+	}
 
 	@Test
 	public void isEncripted_valueCheck() {
