@@ -5,16 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.driver.v1.*;
 import org.neo4j.graphdb.*;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.event.KernelEventHandler;
-import org.neo4j.graphdb.event.TransactionEventHandler;
-import org.neo4j.graphdb.index.IndexManager;
-import org.neo4j.graphdb.schema.Schema;
-import org.neo4j.graphdb.traversal.BidirectionalTraversalDescription;
-import org.neo4j.graphdb.traversal.TraversalDescription;
-
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -32,6 +22,19 @@ public class EmbeddedTestkitDriverTest {
 
 		etd = new EmbeddedTestkitDriver();
 	}
+	
+  @Test
+  public void session_correctReturn(){
+      //Arrange
+      EmbeddedTestkitSession exp_session = new EmbeddedTestkitSession(mgds);
+
+      //Act
+      Session ret_session = mockedEtd.session();
+
+      //Assert
+      assertEquals(exp_session.gds, ((EmbeddedTestkitSession)ret_session).gds);
+      assertEquals(EmbeddedTestkitSession.class, ret_session.getClass());
+  }
 
 	@Test
 	public void isEncripted_valueCheck() {
