@@ -167,6 +167,13 @@ public class EmbeddedTestkitSessionTest {
 		mEts.writeTransaction(trw);
 	}
 
+	@Test
+	public void close(){
+		//Act
+		mEts.close();
+
+		verify(mockGds, times(0)).beginTx();
+	}
 
 	boolean compareStatementResults(StatementResult res1, StatementResult res2){
 		if( ! res1.keys().equals(res2.keys())){

@@ -7,7 +7,7 @@ import org.neo4j.driver.v1.*;
 import org.neo4j.graphdb.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class EmbeddedTestkitDriverTest {
 	private EmbeddedTestkitDriver etd;
@@ -66,6 +66,12 @@ public class EmbeddedTestkitDriverTest {
 
 		//assert
 		assertEquals(mgds, gds_ret);
+	}
+
+	@Test
+	public void close(){
+		//Act
+		mockedEtd.close();
 	}
 }
 
