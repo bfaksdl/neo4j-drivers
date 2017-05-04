@@ -1,60 +1,70 @@
 package neo4j.driver.testkit;
 
 
-import neo4j.driver.util.PrettyPrinter;
+import org.junit.Before;
+import org.junit.Test;
 import org.neo4j.driver.v1.*;
-import neo4j.driver.testkit.*;
-import org.junit.*;
-import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.event.KernelEventHandler;
+import org.neo4j.graphdb.event.TransactionEventHandler;
+import org.neo4j.graphdb.index.IndexManager;
+import org.neo4j.graphdb.schema.Schema;
+import org.neo4j.graphdb.traversal.BidirectionalTraversalDescription;
+import org.neo4j.graphdb.traversal.TraversalDescription;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class EmbeddedTestkitDriverTest {
 	private EmbeddedTestkitDriver etd;
 
-	//private GraphDatabaseService mgds;
+	private EmbeddedTestkitDriver mockedEtd;
+	private GraphDatabaseService mgds;
 
 	@Before
-	public void init(){
-		//mgds = mock(GraphDatabaseService.class);
-		//etd = new EmbeddedTestkitDriverTest(mgds);
+	public void init() {
+		mgds = mock(GraphDatabaseService.class);
+		mockedEtd = new EmbeddedTestkitDriver(mgds);
 
 		etd = new EmbeddedTestkitDriver();
 	}
 
 	@Test
-	public void isEncripted_valueCheck(){
+	public void isEncripted_valueCheck() {
 		//act
 		boolean value = etd.isEncrypted();
 		//Assert
 		assertEquals(false, value);
 	}
 
-//	@Test
-//	public void session_correctReturn(){
-//		//act
-//		Session s = etd.session();
-//		//s.
-//	}
-
-	@Test (expected = UnsupportedOperationException.class)
-	public void session_invalid_parameter(){
+	@Test(expected = UnsupportedOperationException.class)
+	public void session_invalid_parameter() {
 		//act
 		Session s = etd.session("string");
-
 		s.close(); //so findBugs won't complain
 	}
 
-	@Test (expected = UnsupportedOperationException.class)
-	public void session_invalid_parameter_2(){
+	@Test(expected = UnsupportedOperationException.class)
+	public void session_invalid_parameter_2() {
 		//act
 		Session s = etd.session(AccessMode.READ, "string");
 
 		s.close(); //so findBugs won't complain
 	}
 
+	@Test
+	public void getUnderlyingDatabaseService_returned() {
+		//act
+		GraphDatabaseService gds_ret = mockedEtd.getUnderlyingDatabaseService();
 
+		//assert
+		assertEquals(mgds, gds_ret);
+	}
+}
 
 //	@Test
 //	public void test() {
@@ -103,4 +113,5 @@ public class EmbeddedTestkitDriverTest {
 //			}
 //		}
 //	}
-}
+//}
+

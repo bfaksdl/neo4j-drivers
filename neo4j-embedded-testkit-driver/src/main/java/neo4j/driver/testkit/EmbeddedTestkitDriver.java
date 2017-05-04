@@ -21,6 +21,11 @@ public class EmbeddedTestkitDriver implements Driver {
 		gds = new TestGraphDatabaseFactory().newImpermanentDatabase();
 	}
 
+	//for testing purposes
+	public EmbeddedTestkitDriver(GraphDatabaseService _gds) {
+		gds = _gds;
+	}
+
 	public EmbeddedTestkitDriver(final File storeDir) {
 		gds = new GraphDatabaseFactory().newEmbeddedDatabase(storeDir);
 	}
